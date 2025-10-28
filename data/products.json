@@ -1,0 +1,24 @@
+[
+  {
+    "id": "p-001",
+    "name": "AeroFit Running Shoes",
+    "slug": "aerofit-running-shoes",
+    "description": "Lightweight, breathable running shoes for daily comfort.",
+    "price": 3999,
+    "category": "Footwear",
+    "inventory": 20,
+    "image_url": "/images/shoe.jpg",
+    "lastUpdated": "2025-10-28T12:06:53.782Z"
+  },
+  {
+    "id": "p-002",
+    "name": "Nimbus Wireless Headphones",
+    "slug": "nimbus-wireless-headphones",
+    "description": "Noise-cancelling wireless headphones with long battery life.",
+    "price": 6999,
+    "category": "Audio",
+    "inventory": 12,
+    "image_url": "/images/headphones.jpg",
+    "lastUpdated": "2025-10-28T09:00:00.000Z"
+  }
+]
