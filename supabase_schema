@@ -1,0 +1,25 @@
+create table products (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  slug text unique not null,
+  description text,
+  price numeric(10,2) not null,
+  category text,
+  inventory integer default 0,
+  image_url text,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+create or replace function update_timestamp()
+returns trigger as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$ language plpgsql;
+
+create trigger set_timestamp
+before update on products
+for each row
+execute function update_timestamp();
