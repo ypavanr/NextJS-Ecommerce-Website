@@ -1,25 +1,15 @@
 import Image from "next/image";
 import type { Product } from "@/lib/products";
 
-//  Revalidate every 60s (ISR)
+import { getAllProducts } from "@/lib/products";
 export const revalidate = 60;
 
-//  Generate all product pages at build time
+
 export async function generateStaticParams() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/products`, {
-    next: { revalidate: 60 },
-  });
-
-  if (!res.ok) {
-    console.error("Failed to fetch product slugs:", res.statusText);
-    return [];
-  }
-
-  const data: Product[] = await res.json();
-  return data.map((p) => ({ slug: p.slug }));
+  const products = await getAllProducts();
+  return products.map((p) => ({ slug: p.slug }));
 }
 
-//  Fetch a single product from API
 async function getProduct(slug: string): Promise<Product | null> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/products/${slug}`,
