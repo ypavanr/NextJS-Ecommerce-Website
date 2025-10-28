@@ -1,9 +1,8 @@
 import Image from "next/image";
 import type { Product } from "@/lib/products";
+import { getAllProducts, getProductBySlug } from "@/lib/products";
 
-import { getAllProducts } from "@/lib/products";
 export const revalidate = 60;
-
 
 export async function generateStaticParams() {
   const products = await getAllProducts();
@@ -11,22 +10,9 @@ export async function generateStaticParams() {
 }
 
 async function getProduct(slug: string): Promise<Product | null> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL || ""}/api/products/${slug}`,
-    { next: { revalidate: 60 } }
-  );
-
-  if (!res.ok) {
-    console.error("Product fetch failed:", res.statusText);
-    return null;
-  }
-
-  const data = await res.json();
-  if ("error" in data) return null;
-  return data as Product;
+  return await getProductBySlug(slug);
 }
 
-//  Page component
 export default async function ProductPage({ params }: { params: { slug: string } }) {
   const product = await getProduct(params.slug);
 
