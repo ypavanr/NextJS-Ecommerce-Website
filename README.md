@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# E-Commerce App with NextJS & TailwindCSS
+A fully functional e-commerce demo project built with **Next.js App Router** that demonstrates **all three rendering strategies (SSG, ISR, SSR)**, along with protected admin routes, and a simple file-based JSON “database”.
 
-## Getting Started
-
-First, run the development server:
-
+To clone the repository and setup the project- execute the below command:
 ```bash
+git clone https://github.com/ypavanr/NextJS-Ecommerce-Website.git
+cd NextJS-Ecommerce-Website
+npm i
+cp .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+for production execute the below command:
+```bash
+npm run build
+npm start
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## rendering strategies:
+### route: "/"- SSG(Static Site Generation)
+Home page lists products, statically generated at build time for fast load. Client-side search for filtering.
+### route: "/products/[slug ]"- ISR (Incremental Static Regeneration)
+Each product detail page is pre-rendered and automatically revalidated every 60 seconds.### route: "/"- SSG(Static Site Generation)
+### route: "/dashboard"- SSR (Server-Side Rendering)
+Displays real-time inventory and stock data on every request.
+### route: "/admin"- CSR (Client-Side Rendering)
+Admin portal with login, product creation, and inventory updates, powered by client fetch calls to API routes.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Data Flow
+Frontend pages fetch or import data from /lib/products.ts.
 
-## Learn More
+The backend API routes read and write directly to data/products.json using fs/promises.
 
-To learn more about Next.js, take a look at the following resources:
+Admin actions (POST, PUT) are protected via a simple key-based auth which is x-admin-key header.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+After an admin update, changes are instantly reflected in /dashboard (SSR) and within 60s on product pages (ISR revalidation).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Authentication
+Admin access is controlled using ADMIN_KEY stored in .env.local.
+Admin panel stores the key in localStorage for persistent sessions.
 
-## Deploy on Vercel
+## Styling
+Used TailwindCSS to make a responsive page and UI.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
