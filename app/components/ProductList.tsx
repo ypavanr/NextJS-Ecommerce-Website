@@ -10,7 +10,6 @@ export default function ProductList() {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // ✅ Fetch products from local Next.js API route
   useEffect(() => {
     async function fetchProducts() {
       try {
